@@ -40,7 +40,7 @@ jobs:
 
       - run:
           name: Create Build
-          command: yarn test:build:android
+          command: yarn test
 
       - android/accept-licenses
 
