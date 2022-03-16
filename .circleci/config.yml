@@ -40,7 +40,7 @@ jobs:
 
       - run:
           name: Create Build
-          command: yarn test
+          command: yarn test:build:android
 
       - android/accept-licenses
 
@@ -59,7 +59,7 @@ jobs:
             export TEST=$(circleci tests glob "./test/specs/**/*.js" | circleci tests split --split-by=timings)
 
       - android/run-tests:
-          test-command: yarn test:android $TEST
+          test-command: yarn test $TEST
 
       - run:
           command: cp junit.xml ~/junit/
