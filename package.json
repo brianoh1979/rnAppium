@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest --ci --testResultsProcessor='jest-junit'",
+    "test": "jest",
     "test:build:android": "bash scripts/build-android.sh",
     "test:build:ios": "bash scripts/build-ios.sh",
     "test:android": "wdio wdio.conf.android.js",
@@ -39,10 +39,12 @@
   },
   "jest": {
     "verbose": true,
-    "testResultsProcessor": "jest-junit"
+    "testResultsProcessor": "jest-junit",
     "preset": "react-native"
   },
   "jest-junit": {
     "suiteName": "Test Suite",
-    "output": "./junit.xml"
+    "outputDirectory": ".",
+    "outputName": "junit.xml"
+  }
 }
