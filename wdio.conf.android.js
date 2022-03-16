@@ -7,7 +7,7 @@ exports.config = {
     {
       maxInstances: 1,
       platformName: 'Android',
-      //platformVersion: '10',
+      //platformVersion: '11',
       deviceName: 'emulator-5554',
       app: './android/app/build/outputs/apk/debug/app-debug.apk',
       automationName: 'UiAutomator2',

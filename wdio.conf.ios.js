@@ -10,7 +10,7 @@ exports.config = {
       appiumVersion: '1.21.0',
       platformName: 'iOS',
       //platformVersion: '14.3',
-      deviceName: 'iPhone 12',
+      deviceName: 'iPhone 12 Pro Max',
       app: './ios/build/Build/Products/Release-iphonesimulator/rnAppium.app',
       automationName: 'XCUITest',
       acceptInsecureCerts: true,
