@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST_PATH=$(circleci tests glob "./test/specs/*.js
+            export TEST_PATH=$(circleci tests glob "./test/specs/*.js" | circleci tests split)
             export TEST_NAME=$(basename -- "${TEST_PATH%.js}")
             printf "\nTest files:\n$TEST_PATH\n"
 
