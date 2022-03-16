@@ -59,14 +59,17 @@ jobs:
             export TEST=$(circleci tests glob "./test/specs/*.js" | circleci tests split --split-by=timings)
 
       - android/run-tests:
-          test-command: yarn test:android $TEST
+          test-command: yarn test:android $TEST --reporters=jest-junit
 
       - run:
           command: cp junit.xml ~/junit/
           when: always
 
       - store_test_results:
-          path: test-results
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit
+
 
   build-and-test-ios:
     macos:
