@@ -54,12 +54,15 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST_PATH=$(circleci tests glob "./test/spec/*.j$
+            export TEST_PATH=$(circleci tests glob "./test/specs/*.js
             export TEST_NAME=$(basename -- "${TEST_PATH%.js}")
             printf "\nTest files:\n$TEST_PATH\n"
 
       - android/run-tests:
           test-command: yarn test:android
+
+      - store_test_results:
+          path: test-results
 
   build-and-test-ios:
     macos:
@@ -100,12 +103,12 @@ jobs:
           name: Create Build
           command: yarn test:build:ios
 
-      - run:
-          name: Split tests
-          command: |
-            export TEST_PATH=$(circleci tests glob "./tests/non_payments/**/*.js" | circleci tests split)
-            export TEST_NAME=$(basename -- "${TEST_PATH%.js}")
-            printf "\nTest files:\n$TEST_PATH\n"
+#      - run:
+#          name: Split tests
+#          command: |
+#            export TEST_PATH=$(circleci tests glob "./tests/non_payments/**/*.js" | circleci tests split)
+#            export TEST_NAME=$(basename -- "${TEST_PATH%.js}")
+#            printf "\nTest files:\n$TEST_PATH\n"
 
       - run:
           name: Run Tests
@@ -115,4 +118,4 @@ workflows:
   sample:
     jobs:
       - build-and-test-android
-      #- build-and-test-ios # require CircleCI paid plan
+      - build-and-test-ios
