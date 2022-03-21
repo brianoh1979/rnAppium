@@ -1,7 +1,7 @@
 module.exports = {
-  preset: 'ts-jest',
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-    "^.+\\.(js|jsx)$": "babel-jest",
-  }
-};
+  preset: 'react-native',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transformIgnorePatterns: [  
+      '<rootDir>/node_modules/(react-clone-referenced-element|@react-native-community|react-navigation|@react-navigation/.*|@unimodules/.*|native-base|react-native-code-push)',
+  ],
+}
