@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST=$(circleci tests glob "./test/specs/*.js" | circleci tests split --split-by=timings)
+            export TEST=$(circleci tests glob "./__tests__/*.js" | circleci tests split --split-by=timings)
 
       - android/run-tests:
           test-command: yarn test $TEST
@@ -71,58 +71,7 @@ jobs:
           path: ~/junit
 
 
-  build-and-test-ios:
-    macos:
-      xcode: 12.4.0
-
-    steps:
-      - checkout
-
-      - run:
-          name: Install Yarn
-          command: brew install yarn
-
-      - restore_cache:
-          key: dependency-cache-ios-{{ checksum "yarn.lock" }}
-
-      - run:
-          name: Install Dependencies
-          command: yarn
-
-      - save_cache:
-          key: dependency-cache-ios-{{ checksum "yarn.lock" }}
-          paths:
-            - ./node_modules
-
-      - restore_cache:
-          key: dependency-cache-ios-pods-{{ checksum "./ios/Podfile.lock" }}
-
-      - run:
-          name: Pod Install
-          command: cd ios && pod install
-
-      - save_cache:
-          key: dependency-cache-ios-pods-{{ checksum "./ios/Podfile.lock" }}
-          paths:
-            - ./ios/Pods
-
-      - run:
-          name: Create Build
-          command: yarn test:build:ios
-
-#      - run:
-#          name: Split tests
-#          command: |
-#            export TEST_PATH=$(circleci tests glob "./tests/non_payments/**/*.js" | circleci tests split)
-#            export TEST_NAME=$(basename -- "${TEST_PATH%.js}")
-#            printf "\nTest files:\n$TEST_PATH\n"
-
-      - run:
-          name: Run Tests
-          command: yarn test:ios
-
 workflows:
   sample:
     jobs:
       - build-and-test-android
-      - build-and-test-ios
