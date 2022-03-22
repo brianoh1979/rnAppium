@@ -61,9 +61,9 @@ jobs:
       - android/run-tests:
           test-command: yarn test $TEST
 
-      - run:
-          command: cp junit.xml ~/junit/
-          when: always
+#      - run:
+#          command: cp junit.xml ~/junit/
+#          when: always
 
       - store_test_results:
           path: ~/junit
