@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
 
-      - run: mkdir ~/junit
+      - run: mkdir /home/circleci/project/junit
 
       - run:
           name: Node 14 Repo
@@ -64,13 +64,13 @@ jobs:
           test-command: yarn test $TEST
 
       - run:
-          command: cp junit.xml ~/junit/
+          command: cp /home/circleci/project/junit.xml /home/circleci/project/junit/junit.xml
           when: always
 
       - store_test_results:
-          path: ./reports/junit
+          path: /home/circleci/project/junit/junit
       - store_artifacts:
-          path: ./reports/junit
+          path: /home/circleci/project/junit/junit
 
 
 workflows:
