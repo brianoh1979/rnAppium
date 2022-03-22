@@ -38,6 +38,8 @@ jobs:
           paths:
             - ./node_modules
 
+      - run: yarn add --dev jest-junit
+
       - run:
           name: Create Build
           command: yarn test:build:android
@@ -61,14 +63,14 @@ jobs:
       - android/run-tests:
           test-command: yarn test $TEST
 
-#      - run:
-#          command: cp junit.xml ~/junit/
-#          when: always
+      - run:
+          command: cp junit.xml ~/junit/
+          when: always
 
       - store_test_results:
-          path: ~/junit
+          path: ./reports/junit
       - store_artifacts:
-          path: ~/junit
+          path: ./reports/junit
 
 
 workflows:
