@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST=$(circleci tests glob "/home/circleci/project/__tests__/*.js" | circleci tests split --split-by=timings)
+            export TEST=$(circleci tests glob **/__tests__/*.js | circleci tests split --split-by=timings)
 
       - android/run-tests:
           test-command: yarn test $TEST
