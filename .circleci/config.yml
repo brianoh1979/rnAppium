@@ -40,6 +40,8 @@ jobs:
 
       - run: yarn add --dev jest-junit
 
+      - run: npm update 
+
       - run:
           name: Create Build
           command: yarn test:build:android
@@ -58,7 +60,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST=$(circleci tests glob **/__tests__/*.js | circleci tests split)
+            export TEST=$(circleci tests glob /home/circleci/project/__tests__/*.js | circleci tests split)
             echo $TEST
             yarn test $TEST
 
