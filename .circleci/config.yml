@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            export TEST=$(circleci tests glob **/__tests__/*.js | circleci tests split)
+            export TEST=$(circleci tests glob "/home/circelci/project/__tests__/App-test*.js" | circleci tests split)
             echo $TEST
 
       - android/run-tests:
