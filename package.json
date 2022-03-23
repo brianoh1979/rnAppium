@@ -50,6 +50,7 @@
   "jest-junit": {
     "suiteName": "Test Suite",
     "outputDirectory": ".",
-    "outputName": "junit.xml"
+    "outputName": "junit.xml",
+    "usePathForSuiteName": "true"
   }
 }
