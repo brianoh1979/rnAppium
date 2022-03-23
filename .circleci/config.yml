@@ -40,7 +40,7 @@ jobs:
 
       - run: yarn add --dev jest-junit
 
-      - run: npm update 
+      - run: npm update --legacy-peer-deps
 
       - run:
           name: Create Build
