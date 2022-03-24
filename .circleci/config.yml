@@ -61,11 +61,10 @@ jobs:
           name: Split tests
           command: |
             export TEST=$(circleci tests glob /home/circleci/project/__tests__/*.js | circleci tests split)
-            echo $TEST
-            yarn test $TEST
+            echo $TEST >> $BASH_ENV
 
- #     - android/run-tests:
- #         test-command: yarn test $TEST
+      - android/run-tests:
+          test-command: yarn test $TEST
 
       - run:
           command: cp /home/circleci/project/junit.xml /home/circleci/project/junit/junit.xml
