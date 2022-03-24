@@ -60,7 +60,7 @@ jobs:
       - run:
           name: Split tests
           command: |
-            TEST_FILES=$(circleci tests glob "/home/circleci/project/__tests__/*.ts" | circleci tests split)
+            TEST_FILES=$(circleci tests glob "src/**/*.test.ts" | circleci tests split --split-by=timings)
             echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
 
       - android/run-tests:
