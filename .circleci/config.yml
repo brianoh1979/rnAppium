@@ -64,7 +64,7 @@ jobs:
             echo $TEST >> $BASH_ENV
 
       - android/run-tests:
-          test-command: yarn test $TEST
+          test-command: npm test -- $TEST
 
       - run:
           command: cp /home/circleci/project/junit.xml /home/circleci/project/junit/junit.xml
