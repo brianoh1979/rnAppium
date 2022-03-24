@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
+    "test": "jest --ci --runInBand --reporters=default --reporters=jest-junit -t '$TEST'",
     "test:build:android": "bash scripts/build-android.sh",
     "test:build:ios": "bash scripts/build-ios.sh",
     "test:android": "wdio wdio.conf.android.js",
