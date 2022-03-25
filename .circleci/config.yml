@@ -79,11 +79,11 @@ jobs:
 
       - store_test_results:
           path: test-results.xml
-      - run:
-          name: Run coverage
-          command: |
-            echo "Running coverage in: $TEST_FILES_ENV"
-            yarn coverage $TEST_FILES_ENV
+#      - run:
+#          name: Run coverage
+#          command: |
+#            echo "Running coverage in: $TEST_FILES_ENV"
+#            yarn coverage $TEST_FILES_ENV
       - store_artifacts:
           path: coverage
 
