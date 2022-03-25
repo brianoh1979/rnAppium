@@ -38,9 +38,9 @@ jobs:
           paths:
             - ./node_modules
 
-      - run: yarn add --dev jest-junit
+#      - run: yarn add --dev jest-junit
 
-      - run: npm update --legacy-peer-deps
+#      - run: npm update --legacy-peer-deps
 
       - run:
           name: Create Build
