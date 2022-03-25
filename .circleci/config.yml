@@ -42,7 +42,7 @@ jobs:
 
 #      - run: npm update --legacy-peer-deps
 
-      - run: chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
+      - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
 
       - run:
           name: Create Build
