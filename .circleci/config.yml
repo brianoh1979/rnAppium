@@ -42,6 +42,8 @@ jobs:
 
 #      - run: npm update --legacy-peer-deps
 
+      - run: chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
+
       - run:
           name: Create Build
           command: yarn test:build:android
