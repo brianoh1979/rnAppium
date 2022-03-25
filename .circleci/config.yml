@@ -38,9 +38,6 @@ jobs:
           paths:
             - ./node_modules
 
-#      - run: yarn add --dev jest-junit
-
-#      - run: npm update --legacy-peer-deps
 
       - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
 
@@ -79,23 +76,8 @@ jobs:
 
       - store_test_results:
           path: test-results.xml
-#      - run:
-#          name: Run coverage
-#          command: |
-#            echo "Running coverage in: $TEST_FILES_ENV"
-#            yarn coverage $TEST_FILES_ENV
       - store_artifacts:
           path: coverage
-
-#      - run:
-#          command: cp /home/circleci/project/junit.xml /home/circleci/project/junit/junit.xml
-#          when: always
-
-#      - store_test_results:
-#          path: /home/circleci/project/junit
-#      - store_artifacts:
-#          path: /home/circleci/project/junit
-
 
 workflows:
   sample:
