@@ -46,26 +46,10 @@ jobs:
       - android/start-emulator:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
-      - run:
-          name: Split tests
-          command: |
-            TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
-            echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
-      - android/run-tests:
-          test-command: yarn test $TEST_FILES_ENV
-      - run: # https://github.com/michaelleeallen/mocha-junit-reporter/issues/132#issuecomment-864212687
-          name: Process test report
-          when: always
-          command: |
-            # Convert absolute paths to relative to support splitting tests by timing
-            if [ -e test-results.xml ]; then
-              sed -i "s|`pwd`/||g" test-results.xml
-            fi            
-      - store_test_results:
-          path: test-results.xml
-      - store_artifacts:
-          path: coverage
-
+          restore-gradle-cache-prefix: v1a
+      - android/run-tests
+      - android/save-gradle-cache:
+          cache-prefix: v1a
 workflows:
   sample:
     jobs:
