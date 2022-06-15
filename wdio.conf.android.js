@@ -1,7 +1,7 @@
 exports.config = {
   runner: 'local',
   port: 4723,
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./__tests__/*.js'],
   maxInstances: 1,
   capabilities: [
     {
