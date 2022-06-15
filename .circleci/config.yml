@@ -5,7 +5,9 @@ orbs:
 
 jobs:
   build-and-test-android:
-    parallelism: 5
+    parallelism: 2
+    _JAVA_OPTIONS: "-Xmx3g"
+    GRADLE_OPTS=-Dkotlin.compiler.execution.strategy=in-process. 
     machine:
       image: android:202102-01
 
