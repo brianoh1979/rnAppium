@@ -48,7 +48,7 @@ jobs:
  #           TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
  #           echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
       - android/run-tests:
-          test-command: yarn test
+          test-command: yarn test:android
       - run: # https://github.com/michaelleeallen/mocha-junit-reporter/issues/132#issuecomment-864212687
           name: Process test report
           when: always
