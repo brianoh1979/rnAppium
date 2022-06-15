@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   build-and-test-android:
-    parallellism: 5
+    parallelism: 5
     machine:
       image: android:202102-01
 
