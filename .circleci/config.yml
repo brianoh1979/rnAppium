@@ -6,8 +6,6 @@ orbs:
 jobs:
   build-and-test-android:
     environment:
-      _JAVA_OPTIONS: "-Xmx3g"
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.compiler.execution.strategy=in-process"
     machine:
       image: android:202102-01
 
@@ -45,12 +43,11 @@ jobs:
       - android/start-emulator:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
-          restore-gradle-cache-prefix: v1a
 #      - run: 
 #          name: Run Tests
 #          command: yarn test:android
-      - android/save-gradle-cache:
-          cache-prefix: v1a
+#      - android/save-gradle-cache:
+#          cache-prefix: v1a
 workflows:
   sample:
     jobs:
