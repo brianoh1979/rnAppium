@@ -5,66 +5,50 @@ orbs:
 
 jobs:
   build-and-test-android:
-    parallelism: 5
-    executor:
-      name: android/android-machine
+    machine:
+      name: android:202102-01
 
     steps:
       - checkout
 
       - run: mkdir /home/circleci/project/junit
-
       - run:
           name: Node 14 Repo
           command: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
-
       - run:
           name: Install Node
           command: 'sudo apt-get install -y nodejs'
-
       - run:
           name: Install Yarn
           command: 'sudo npm install -g yarn'
-
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
-
       - run:
           name: Install Dependencies
           command: yarn
-
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-
-
       - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
-
       - run:
           name: Create Build
           command: yarn test:build:android
-
       - android/accept-licenses
-
       - android/create-avd:
           avd-name: emulator-5554
           install: true
           system-image: system-images;android-29;default;x86_64
-
       - android/start-emulator:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
-
-      - run:
-          name: Split tests
-          command: |
-            TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
-            echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
-
+ #     - run:
+ #         name: Split tests
+ #         command: |
+ #           TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
+ #           echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
       - android/run-tests:
-          test-command: yarn test $TEST_FILES_ENV
-
+          test-command: yarn test
       - run: # https://github.com/michaelleeallen/mocha-junit-reporter/issues/132#issuecomment-864212687
           name: Process test report
           when: always
@@ -73,7 +57,6 @@ jobs:
             if [ -e test-results.xml ]; then
               sed -i "s|`pwd`/||g" test-results.xml
             fi            
-
       - store_test_results:
           path: test-results.xml
       - store_artifacts:
