@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build-and-test-android:
+    parallellism: 5
     machine:
       image: android:202102-01
 
@@ -42,13 +43,13 @@ jobs:
       - android/start-emulator:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
- #     - run:
- #         name: Split tests
- #         command: |
- #           TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
- #           echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
+      - run:
+          name: Split tests
+          command: |
+            TEST_FILES=$(circleci tests glob "src/**/*.ts" | circleci tests split --split-by=timings)
+            echo "export TEST_FILES_ENV=$TEST_FILES" >> $BASH_ENV
       - android/run-tests:
-          test-command: yarn test:android
+          test-command: yarn test $TEST_FILES_ENV
       - run: # https://github.com/michaelleeallen/mocha-junit-reporter/issues/132#issuecomment-864212687
           name: Process test report
           when: always
