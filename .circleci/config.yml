@@ -46,9 +46,9 @@ jobs:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
           restore-gradle-cache-prefix: v1a
-      - run: 
-          name: Run Tests
-          command: yarn test:android
+#      - run: 
+#          name: Run Tests
+#          command: yarn test:android
       - android/save-gradle-cache:
           cache-prefix: v1a
 workflows:
