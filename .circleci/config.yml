@@ -8,7 +8,7 @@ jobs:
     parallelism: 2
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
-      GRADLE_OPTS= "-Dkotlin.compiler.execution.strategy=in-process." 
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     machine:
       image: android:202102-01
 
