@@ -6,7 +6,7 @@ orbs:
 jobs:
   build-and-test-android:
     machine:
-      name: android:202102-01
+      image: android:202102-01
 
     steps:
       - checkout
