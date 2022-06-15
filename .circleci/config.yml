@@ -5,7 +5,6 @@ orbs:
 
 jobs:
   build-and-test-android:
-    parallelism: 2
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.compiler.execution.strategy=in-process"
@@ -47,7 +46,9 @@ jobs:
           avd-name: emulator-5554
           post-emulator-launch-assemble-command: ''
           restore-gradle-cache-prefix: v1a
-      - android/run-tests
+      - run: 
+          name: Run Tests
+          command: yarn test:android
       - android/save-gradle-cache:
           cache-prefix: v1a
 workflows:
