@@ -54,7 +54,7 @@ jobs:
 #          command: npm run affected:typecheck -- --base ${NX_BASE}
       - run:
           name: Lint
-          command: npm install eslint —dev && npm run-script lint
+          command: npm install eslint && npm run-script lint
       - run:
           name: Test
           command: npm run test -- --ci --base ${NX_BASE} --maxWorkers 2 --reporters=default --reporters=jest-junit
