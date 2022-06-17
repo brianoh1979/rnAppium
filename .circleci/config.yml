@@ -5,46 +5,6 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.2  
 
 jobs:
-#  build-and-test-android:
-#    environment:
-#    machine:
-#      image: android:202102-01
-
-#    steps:
-#      - checkout
-
-#      - run: mkdir /home/circleci/project/junit
-#      - run:
-#          name: Node 14 Repo
-#          command: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
-#      - run:
-#          name: Install Node
-#          command: 'sudo apt-get install -y nodejs'
-#      - run:
-#          name: Install Yarn
-#          command: 'sudo npm install -g yarn'
-#      - restore_cache:
-#          key: dependency-cache-{{ checksum "yarn.lock" }}
-#      - run:
-#          name: Install Dependencies
-#          command: yarn
-#      - save_cache:
-#          key: dependency-cache-{{ checksum "yarn.lock" }}
-#          paths:
-#            - ./node_modules
-#      - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
-#      - run:
-#          name: Create Build
-#          command: yarn test:build:android
-#      - android/accept-licenses
-#      - android/create-avd:
-#          avd-name: emulator-5554
-#          install: true
-#          system-image: system-images;android-29;default;x86_64
-#      - android/start-emulator:
-#          avd-name: emulator-5554
-#          post-emulator-launch-assemble-command: ''
-
   setup_and_test:
     docker:
       - image: cimg/node:16.13
@@ -88,13 +48,13 @@ jobs:
             - ~/.npm
 #      - run:
 #          name: Lint commit message
-          command: npx commitlint --from \"origin/node\"
-      - run:
-          name: Type Check
-          command: npm run affected:typecheck -- --base ${NX_BASE}
+#          command: npx commitlint --from \"origin/node\"
+#      - run:
+#          name: Type Check
+#          command: npm run affected:typecheck -- --base ${NX_BASE}
       - run:
           name: Lint
-          command: npm run affected:lint -- --base ${NX_BASE}
+          command: npm run-script lint
       - run:
           name: Test
           command: npm run test -- --ci --base ${NX_BASE} --maxWorkers 2 --reporters=default --reporters=jest-junit
