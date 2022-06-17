@@ -86,8 +86,8 @@ jobs:
           key: npm-cache-v1-{{ checksum "package-lock.json" }}-{{ arch }}
           paths:
             - ~/.npm
-      - run:
-          name: Lint commit message
+#      - run:
+#          name: Lint commit message
           command: npx commitlint --from \"origin/node\"
       - run:
           name: Type Check
