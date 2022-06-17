@@ -2,52 +2,123 @@ version: 2.1
 
 orbs:
   android: circleci/android@1.0.3
+  sonarcloud: sonarsource/sonarcloud@1.0.2  
 
 jobs:
-  build-and-test-android:
-    environment:
-    machine:
-      image: android:202102-01
+#  build-and-test-android:
+#    environment:
+#    machine:
+#      image: android:202102-01
 
+#    steps:
+#      - checkout
+
+#      - run: mkdir /home/circleci/project/junit
+#      - run:
+#          name: Node 14 Repo
+#          command: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
+#      - run:
+#          name: Install Node
+#          command: 'sudo apt-get install -y nodejs'
+#      - run:
+#          name: Install Yarn
+#          command: 'sudo npm install -g yarn'
+#      - restore_cache:
+#          key: dependency-cache-{{ checksum "yarn.lock" }}
+#      - run:
+#          name: Install Dependencies
+#          command: yarn
+#      - save_cache:
+#          key: dependency-cache-{{ checksum "yarn.lock" }}
+#          paths:
+#            - ./node_modules
+#      - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
+#      - run:
+#          name: Create Build
+#          command: yarn test:build:android
+#      - android/accept-licenses
+#      - android/create-avd:
+#          avd-name: emulator-5554
+#          install: true
+#          system-image: system-images;android-29;default;x86_64
+#      - android/start-emulator:
+#          avd-name: emulator-5554
+#          post-emulator-launch-assemble-command: ''
+
+  setup_and_test:
+    docker:
+      - image: cimg/node:16.13
+    resource_class: large
     steps:
       - checkout
-
-      - run: mkdir /home/circleci/project/junit
       - run:
-          name: Node 14 Repo
-          command: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
-      - run:
-          name: Install Node
-          command: 'sudo apt-get install -y nodejs'
-      - run:
-          name: Install Yarn
-          command: 'sudo npm install -g yarn'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install Dependencies
-          command: yarn
-      - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          name: Setup environment variables
+          command: |
+            echo $CIRCLE_BRANCH
+            if [[ $CIRCLE_BRANCH == "node" ]]
+            then
+              echo 'Setting NX_BASE to last tag'
+              echo 'export NX_BASE=`git describe --tags $(git rev-list --tags --max-count=1)`' >> $BASH_ENV
+              source $BASH_ENV
+            else
+              echo 'Setting NX_BASE to origin/node'
+              echo 'export NX_BASE="origin/node"' >> $BASH_ENV
+              source $BASH_ENV
+            fi
+            source $BASH_ENV
+            echo $NX_BASE
+      - persist_to_workspace:
+          root: .
           paths:
-            - ./node_modules
-      - run: chmod +x /home/circleci/project/node_modules/@react-native-community/cli/build/tools/yarn.js
+            - "*"
+      - restore_cache:
+          name: Restoring npm cache
+          keys:
+            - node-v2-{{ checksum "package-lock.json" }}-{{ arch }}
+            - npm-cache-v1-{{ checksum "package-lock.json" }}-{{ arch }}
       - run:
-          name: Create Build
-          command: yarn test:build:android
-      - android/accept-licenses
-      - android/create-avd:
-          avd-name: emulator-5554
-          install: true
-          system-image: system-images;android-29;default;x86_64
-      - android/start-emulator:
-          avd-name: emulator-5554
-          post-emulator-launch-assemble-command: ''
-#      - run: 
-#          name: Run Tests
-#          command: yarn test:android
-#      - android/save-gradle-cache:
-#          cache-prefix: v1a
+          name: Invalidate cache if there are changes in patches folder
+          command: |
+            set +e
+            git diff --exit-code develop...HEAD -- patches
+            exit_code=$(echo $?)
+            if [ "$exit_code" = 1 ]; then
+              echo "Changes found in patches folder. Delete node modules."
+              rm -rf node_modules
+            fi
+      - save_cache:
+          name: Caching node modules
+          key: node-v2-{{ checksum "package-lock.json" }}-{{ arch }}
+          paths:
+            - node_modules
+      - save_cache:
+          name: Caching npm
+          key: npm-cache-v1-{{ checksum "package-lock.json" }}-{{ arch }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint commit message
+          command: npx commitlint --from \"origin/node\"
+      - run:
+          name: Type Check
+          command: npm run affected:typecheck -- --base ${NX_BASE}
+      - run:
+          name: Lint
+          command: npm run affected:lint -- --base ${NX_BASE}
+      - run:
+          name: Test
+          command: npm run test -- --ci --base ${NX_BASE} --maxWorkers 2 --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: ./reports/junit/
+      - store_artifacts:
+          path: ./reports/junit
+      - sonarcloud/scan
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+
 workflows:
   sample:
     jobs:
