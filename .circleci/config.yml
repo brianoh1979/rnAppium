@@ -62,7 +62,7 @@ jobs:
 #            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - run:
           name: Test
-          command: npm install -g @nrwl/cli && nx run-many --target=test --parallel
+          command: sudo npm install -g @nrwl/cli && nx run-many --target=test --parallel
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
