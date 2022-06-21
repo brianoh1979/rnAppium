@@ -55,16 +55,21 @@ jobs:
       - run:
           name: Lint
           command: npm install eslint && npm run-script lint
+#      - run:
+#          name: Test
+#          command: npm run test -- --ci --base ${NX_BASE} --maxWorkers 2 --reporters=default --reporters=jest-junit
+#          environment:
+#            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - run:
           name: Test
-          command: npm run test -- --ci --base ${NX_BASE} --maxWorkers 2 --reporters=default --reporters=jest-junit
+          command: nx run-many --target=test --parallel
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
           path: ./reports/junit/
       - store_artifacts:
           path: ./reports/junit
-      - sonarcloud/scan
+ #     - sonarcloud/scan
       - store_artifacts:
           path: coverage
           destination: coverage
