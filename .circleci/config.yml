@@ -69,6 +69,11 @@ jobs:
           path: ./reports/junit/
       - store_artifacts:
           path: ./reports/junit
+      - run: powershell.exe
+      - run:
+          name: exit code 0
+          command: exit 0
+          when: always 
  #     - sonarcloud/scan
       - store_artifacts:
           path: coverage

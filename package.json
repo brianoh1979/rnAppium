@@ -13,6 +13,13 @@
     "test:ios": "wdio wdio.conf.ios.js",
     "lint": "eslint ./;exit 0"
   },
+  "nx": {
+    "targets": {
+      "test": {
+        "outputs": []
+      }
+    }
+  },
   "dependencies": {
     "lodash.groupby": "^4.6.0",
     "nx": "^14.3.6",
