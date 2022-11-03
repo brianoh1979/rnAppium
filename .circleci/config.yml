@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   build-and-test-android:
-    parallelism: 5
+    parallelism: 4
     executor:
       name: android/android-machine
 
